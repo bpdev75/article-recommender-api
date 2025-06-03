@@ -17,7 +17,7 @@ jobs:
       contents: read
     defaults:
       run:
-        shell: bash -el {0} # Nécessaire pour l'activation Conda
+        shell: bash -el {0}
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,9 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           activate-environment: article-recommender
           environment-file: environment.yml
-          use-only-tar-bz2: true # Important pour le caching
+          channels: conda-forge,defaults
+          channel-priority: strict
+          use-only-tar-bz2: false
           auto-activate-base: false
 
       - name: Install dependencies with Conda
@@ -38,8 +40,7 @@ jobs:
           conda env update -n article-recommender -f environment.yml
 
       - name: Zip artifact for deployment
-        run: |
-          zip -r release.zip . -x '*.git*' -x '*.venv*' -x '*.conda*'
+        run: zip -r release.zip . -x '*.git*' -x '*.venv*' -x '*.conda*'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
