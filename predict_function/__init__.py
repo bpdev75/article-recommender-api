@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import logging
-from model.hybrid import HybridArticleRecommender
+#from model.hybrid import HybridArticleRecommender
 
 logging.basicConfig(level=logging.INFO)
 
