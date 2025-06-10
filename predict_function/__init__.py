@@ -5,12 +5,10 @@ import pickle
 import numpy as np
 import pandas as pd
 import logging
-#from model.hybrid import HybridArticleRecommender
-
-logging.basicConfig(level=logging.INFO)
+from model.hybrid import HybridArticleRecommender
 
 base_path = os.path.dirname(__file__)
-data_path = os.path.join(base_path, "..", "data")
+data_path = os.path.join(base_path, "data")
 
 try:
     logging.info("Loading article embeddings...")
