@@ -1,5 +1,5 @@
 import pandas as pd
-from base import AbstractArticleRecommender
+from model.base import AbstractArticleRecommender
 from surprise import Dataset, Reader, SVD
 
 class CollaborativeFilteringArticleRecommender(AbstractArticleRecommender):

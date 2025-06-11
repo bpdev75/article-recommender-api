@@ -1,5 +1,16 @@
-from base import AbstractArticleRecommender
+from model.base import AbstractArticleRecommender
 import numpy as np
+
+def cosine_similarity_matrix(a, b):
+    """
+    Compute cosine similarity between matrix a and matrix b.
+    a: shape (1, d) or (m, d)
+    b: shape (n, d)
+    Returns: shape (m, n)
+    """
+    a_norm = a / np.linalg.norm(a, axis=1, keepdims=True)
+    b_norm = b / np.linalg.norm(b, axis=1, keepdims=True)
+    return np.dot(a_norm, b_norm.T)
 
 class ContentBasedArticleRecommender(AbstractArticleRecommender):
     """
@@ -44,9 +55,6 @@ class ContentBasedArticleRecommender(AbstractArticleRecommender):
         user_vector = self.user_embeddings[user_id].reshape(1, -1)
 
         # Compute similarity with all articles
-        similarities = cosine_similarity(user_vector, self.article_embeddings[self.test_article_ids])[0]
+        similarities = cosine_similarity_matrix(user_vector, self.article_embeddings[self.test_article_ids])[0]
         
         return dict(zip(self.test_article_ids, similarities))
-
-    def cosine_similarity(a, b):
-        return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))

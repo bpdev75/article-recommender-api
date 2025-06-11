@@ -1,25 +1,15 @@
 {
   "version": "2.0",
-  "functionTimeout": "00:10:00",
-  "extensionBundle": {
-    "id": "Microsoft.Azure.Functions.ExtensionBundle",
-    "version": "[4.*, 5.0.0)"
-  },
   "logging": {
-    "logLevel": {
-      "Function": "Information"
-    },
     "applicationInsights": {
       "samplingSettings": {
-        "isEnabled": false
+        "isEnabled": true,
+        "excludedTypes": "Request"
       }
     }
   },
-  "customHandler": {
-    "description": {
-      "defaultExecutablePath": ".venv/bin/python",
-      "workingDirectory": "",
-      "arguments": ["-m", "azure_functions_worker"]
-    }
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle",
+    "version": "[4.*, 5.0.0)"
   }
 }

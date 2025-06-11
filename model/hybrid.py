@@ -1,6 +1,6 @@
-from base import AbstractArticleRecommender
-from content_based import ContentBasedArticleRecommender
-from collaborative import CollaborativeFilteringArticleRecommender
+from model.base import AbstractArticleRecommender
+from model.content_based import ContentBasedArticleRecommender
+from model.collaborative import CollaborativeFilteringArticleRecommender
 
 class HybridArticleRecommender(AbstractArticleRecommender):
     def __init__(self, train_df, test_df, article_embeddings, alpha):
