@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from model.hybrid import HybridArticleRecommender
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 version = "1.0"
 
 base_path = os.path.dirname(__file__)
