@@ -8,6 +8,7 @@ import pandas as pd
 from model.hybrid import HybridArticleRecommender
 
 version = "1.0"
+app = func.FunctionApp()
 
 base_path = os.path.dirname(__file__)
 data_path = os.path.join(base_path, "data")
@@ -19,7 +20,9 @@ train_df = pd.read_csv(os.path.join(data_path, "clicks_train.csv"))
 test_df = pd.read_csv(os.path.join(data_path, "clicks_test.csv"))
 hybrid_model = HybridArticleRecommender(train_df, test_df, article_embeddings, alpha=0.5)
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+@app.function_name(name="predict_function")
+@app.route(route="predict", methods=["POST"])
+def predict_function(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     try:
