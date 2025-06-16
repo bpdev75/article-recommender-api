@@ -74,3 +74,6 @@ jobs:
           scm-do-build-during-deployment: true
           enable-oryx-build: true
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+    env:
+      ORYX_DISABLE_TELEMETRY: 1
+      SCM_BUILD_ARGS: --no-cache-dir --force-reinstall # Ignore le cache pip et réinstalle tout
