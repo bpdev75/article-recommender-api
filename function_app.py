@@ -1,13 +1,13 @@
 import azure.functions as func
 import logging
-import os
 import json
 import pickle
-import numpy as np
 import pandas as pd
+import requests
+from io import BytesIO
 from model.content_based import ContentBasedArticleRecommender
 
-version = "1.0"
+version = "2.0"
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 # Global cache
@@ -21,14 +21,12 @@ def predict_function(req: func.HttpRequest) -> func.HttpResponse:
     if model is None:
         try:
             logging.info("Loading model and data...")
-            base_path = os.path.dirname(__file__)
-            data_path = os.path.join(base_path, "data")
+            response = requests.get("https://articlerecommendstorage.blob.core.windows.net/articlecontainer/articles_embeddings_50.pickle?sp=r&st=2025-06-17T17:33:34Z&se=2025-08-18T01:33:34Z&spr=https&sv=2024-11-04&sr=b&sig=4tdppluUbqMkGHs8i4q%2BkQxJfF%2BMrdKZm1toW%2BTf%2FZM%3D")
+            response.raise_for_status()
+            article_embeddings = pickle.load(BytesIO(response.content))
 
-            with open(os.path.join(data_path, "articles_embeddings_50.pickle"), "rb") as f:
-                article_embeddings = pickle.load(f)
-
-            train_df = pd.read_csv(os.path.join(data_path, "clicks_train.csv"))
-            test_df = pd.read_csv(os.path.join(data_path, "clicks_test.csv"))
+            train_df = pd.read_csv("https://articlerecommendstorage.blob.core.windows.net/articlecontainer/clicks_train.csv?sp=r&st=2025-06-17T17:34:50Z&se=2025-08-18T01:34:50Z&spr=https&sv=2024-11-04&sr=b&sig=hmjYdbAh1iXCEQic91FKVL0NFBANE6nJHcdXAIn4hYE%3D")
+            test_df = pd.read_csv("https://articlerecommendstorage.blob.core.windows.net/articlecontainer/clicks_test.csv?sp=r&st=2025-06-17T17:34:31Z&se=2025-08-18T01:34:31Z&spr=https&sv=2024-11-04&sr=b&sig=P3C3cpJrmEZ41hT3hA4U%2FFKaEIi2vYUzQ%2BFz%2Bysznfs%3D")
 
             model = ContentBasedArticleRecommender(train_df, test_df, article_embeddings)
             logging.info("Model loaded successfully.")
