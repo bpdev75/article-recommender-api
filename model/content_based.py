@@ -29,7 +29,7 @@ class ContentBasedArticleRecommender(AbstractArticleRecommender):
     """
 
     def __init__(self, train_df, test_df, article_embeddings):
-        super().__init__(train_df, test_df)
+        super().__init__("content based", train_df, test_df)
         self.article_embeddings = article_embeddings
         self.nb_articles = article_embeddings.shape[0]
         self.embedding_dim = article_embeddings.shape[1]

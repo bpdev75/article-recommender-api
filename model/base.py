@@ -7,7 +7,8 @@ class AbstractArticleRecommender(ABC):
     An abstract class to recommend articles for a given user id
     """
 
-    def __init__(self, train_df, test_df):
+    def __init__(self, name, train_df, test_df):
+        self.name = name
         self.train_df = train_df
         self.test_df = test_df
         self.test_article_ids = test_df["article_id"].unique().astype(int)
@@ -31,7 +32,7 @@ class AbstractArticleRecommender(ABC):
         pred_scores = self.predict_scores(user_id)
         pred_scores = dict(sorted(pred_scores.items(), key=lambda item: item[1], reverse=True)[:k])
         return [article_id for article_id, _ in pred_scores.items()]
-    
+
     @abstractmethod
     def predict_scores(self, user_id):
         """

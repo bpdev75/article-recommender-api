@@ -4,7 +4,7 @@ from model.collaborative import CollaborativeFilteringArticleRecommender
 
 class HybridArticleRecommender(AbstractArticleRecommender):
     def __init__(self, train_df, test_df, article_embeddings, alpha):
-        super().__init__(train_df, test_df)
+        super().__init__("hybrid", train_df, test_df)
         self.cb_model = ContentBasedArticleRecommender(train_df, test_df, article_embeddings)
         self.cf_model = CollaborativeFilteringArticleRecommender(train_df, test_df)
         self.alpha = alpha

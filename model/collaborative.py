@@ -5,7 +5,7 @@ from surprise import Dataset, Reader, SVD
 class CollaborativeFilteringArticleRecommender(AbstractArticleRecommender):
 
     def __init__(self, train_df, test_df):
-        super().__init__(train_df, test_df)
+        super().__init__("collaborative filtering", train_df, test_df)
         train_data = self.build_surprise_dataset(train_df)
         test_data = self.build_surprise_dataset(test_df)
         self.trainset = train_data.build_full_trainset()
